@@ -1,0 +1,43 @@
+{
+    "version": 1,
+    "schedule": {
+        "type": "simple",
+        "interval": "10s"
+    },
+    "workflow": {
+        "collect": {
+            "metrics": {                
+                "/psutil/load/load1": {},
+                "/psutil/load/load15": {}
+            },
+            "config": {
+                "/intel/dummy": {
+                    "password": "secret",
+                    "user": "root"
+                }
+            },
+            "process": [
+                {
+                    "plugin_name": "passthru",
+                    "plugin_version": 1,
+                    "process": null,
+                    "publish": [
+                        {
+                            "plugin_name": "postgresql",
+                            "plugin_version": 1,
+                            "config": {
+                                "host": "localhost",
+                                "username": "pulse",
+                                "table_name": "pulse",
+                                "database": "pulse",
+                                "password": "pulse!"                            
+                            }
+                        }
+                    ],
+                    "config": null
+                }
+            ],
+            "publish": null
+        }
+    }
+}
