@@ -40,7 +40,7 @@ import (
 
 const (
 	name         = "postgresql"
-	version      = 1
+	version      = 2
 	pluginType   = plugin.PublisherPluginType
 	tableColumns = "(time_posted timestamp with time zone, key_column VARCHAR(200), value_column VARCHAR(200))"
 	timeFormat   = time.RFC3339
@@ -146,7 +146,7 @@ func CreateTable(db *sql.DB, tableName string) (bool, error) {
 	return true, err
 }
 
-func (f *PostgreSQLPublisher) GetConfigPolicy() cpolicy.ConfigPolicy {
+func (f *PostgreSQLPublisher) GetConfigPolicy() (*cpolicy.ConfigPolicy, error) {
 	cp := cpolicy.New()
 	config := cpolicy.NewPolicyNode()
 
@@ -177,7 +177,7 @@ func (f *PostgreSQLPublisher) GetConfigPolicy() cpolicy.ConfigPolicy {
 	config.Add(username, password, database, tableName, hostName, port)
 
 	cp.Add([]string{""}, config)
-	return *cp
+	return cp, nil
 
 }
 
