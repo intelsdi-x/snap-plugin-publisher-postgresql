@@ -101,8 +101,9 @@ func TestInterfaceToString(t *testing.T) {
 func TestGetConfigPolicy(t *testing.T) {
 	Convey("TestGetConfigPolicy", t, func() {
 		sp := NewPostgreSQLPublisher()
-		expl := sp.GetConfigPolicy()
+		expl, err := sp.GetConfigPolicy()
 		So(expl, ShouldNotBeNil)
+		So(err, ShouldBeNil)
 		text := expl.Get([]string{""})
 		So(fmt.Sprintf("%s", reflect.TypeOf(text)), ShouldResemble, "*cpolicy.ConfigPolicyNode")
 	})

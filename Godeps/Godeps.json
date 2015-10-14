@@ -9,13 +9,7 @@
 		},
 		{
 			"ImportPath": "github.com/intelsdi-x/pulse",
-			"Comment": "0.2.0-40-gbfec09b",
-			"Rev": "bfec09b41583fadc89ce42f50d12a51edd42f869"
-		},
-		{
-			"ImportPath": "github.com/intelsdi-x/pulse/pkg/ctree",
-			"Comment": "0.2.0-40-gbfec09b",
-			"Rev": "bfec09b41583fadc89ce42f50d12a51edd42f869"
+			"Rev": "544d1d673afb6b7e6f2f07331da79fb4de143d7e"
 		},
 		{
 			"ImportPath": "github.com/jtolds/gls",

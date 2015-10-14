@@ -48,7 +48,7 @@ func TestPostgresPublish(t *testing.T) {
 		config["table_name"] = ctypes.ConfigValueStr{Value: "info"}
 
 		ip := NewPostgreSQLPublisher()
-		cp := ip.GetConfigPolicy()
+		cp, _ := ip.GetConfigPolicy()
 		cfg, _ := cp.Get([]string{""}).Process(config)
 
 		Convey("Publish integer metric", func() {
