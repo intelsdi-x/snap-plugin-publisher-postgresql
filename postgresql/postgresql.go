@@ -40,9 +40,9 @@ import (
 
 const (
 	name         = "postgresql"
-	version      = 2
+	version      = 3
 	pluginType   = plugin.PublisherPluginType
-	tableColumns = "(time_posted timestamp with time zone, key_column VARCHAR(200), value_column VARCHAR(200))"
+	tableColumns = "(id SERIAL PRIMARY KEY, time_posted timestamp with time zone, key_column VARCHAR(200), value_column VARCHAR(200))"
 	timeFormat   = time.RFC3339
 )
 
@@ -84,21 +84,24 @@ func (s *PostgreSQLPublisher) Publish(contentType string, content []byte, config
 
 	defer db.Close()
 
-	_, err = CreateTable(db, tableName)
-	if err != nil {
-		logger.Printf("Error: %v", err)
-		return err
-	}
-
 	nowTime := time.Now().Format(timeFormat)
 	var key, value string
 	for _, m := range metrics {
 		key = sliceToNamespace(m.Namespace())
 		value, err = interfaceToString(m.Data())
 		if err == nil {
-			query := fmt.Sprintf("INSERT INTO %s (time_posted, key_column, value_column) VALUES ('%s', '%s', '%s')", tableName, nowTime, key, value)
+			query := fmt.Sprintf("INSERT INTO %s (id, time_posted, key_column, value_column) VALUES (DEFAULT, '%s', '%s', '%s')", tableName, nowTime, key, value)
 			_, err := db.Exec(query)
 			if err != nil {
+				err_msg := fmt.Sprintf("pq: relation \"%s\" does not exist", tableName)
+				if err.Error() == err_msg {
+					_, err = CreateTable(db, tableName)
+					if err != nil {
+						logger.Printf("Error: %v", err)
+						return err
+					}
+
+				}
 				logger.Printf("Error: %v", err)
 				return err
 			}
@@ -139,6 +142,12 @@ func CreateTable(db *sql.DB, tableName string) (bool, error) {
 	logger := log.New()
 	query := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s %s", tableName, tableColumns)
 	_, err := db.Exec(query)
+	if err != nil {
+		logger.Printf("Error: %v", err)
+		return false, err
+	}
+	query = fmt.Sprintf("CREATE INDEX key_index on %s (key_column)", tableName)
+	_, err = db.Exec(query)
 	if err != nil {
 		logger.Printf("Error: %v", err)
 		return false, err

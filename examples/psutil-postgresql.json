@@ -6,7 +6,7 @@
     },
     "workflow": {
         "collect": {
-            "metrics": {                
+            "metrics": {
                 "/psutil/load/load1": {},
                 "/psutil/load/load15": {}
             },
@@ -24,13 +24,14 @@
                     "publish": [
                         {
                             "plugin_name": "postgresql",
-                            "plugin_version": 1,
+                            "plugin_version": 3,
                             "config": {
-                                "host": "localhost",
+                                "hostname": "localhost",
+                                "port": 5432,
                                 "username": "pulse",
                                 "table_name": "pulse",
                                 "database": "pulse",
-                                "password": "pulse!"                            
+                                "password": "pulse"
                             }
                         }
                     ],

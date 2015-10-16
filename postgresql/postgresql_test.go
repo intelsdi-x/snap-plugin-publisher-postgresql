@@ -156,6 +156,7 @@ func GetSqlMock() (*sql.DB, error) {
 	if err != nil {
 		fmt.Printf("an error '%s' was not expected when opening a stub database connection", err)
 	}
+	mock.ExpectExec("^CREATE INDEX key_index on (.+)$").WillReturnResult(sqlmock.NewResult(0, 1))
 	return db, err
 }
 
