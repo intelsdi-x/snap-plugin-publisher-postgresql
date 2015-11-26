@@ -33,8 +33,8 @@ import (
 	"database/sql"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/intelsdi-x/pulse/control/plugin"
-	"github.com/intelsdi-x/pulse/core/ctypes"
+	"github.com/intelsdi-x/snap/control/plugin"
+	"github.com/intelsdi-x/snap/core/ctypes"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -66,7 +66,7 @@ func TestInterfaceToString(t *testing.T) {
 	expl2 := []string{"intel", "os"}
 	expl3 := 1
 	expl4 := 1.12
-	expl5 := "pulse"
+	expl5 := "snap"
 	expl6 := make(map[float64]float64)
 	expl7 := []int{}
 	expl8 := []int{1}
@@ -84,7 +84,7 @@ func TestInterfaceToString(t *testing.T) {
 		So(sp, ShouldEqual, "1.12")
 		So(err, ShouldBeNil)
 		sp, err = interfaceToString(expl5)
-		So(sp, ShouldEqual, "pulse")
+		So(sp, ShouldEqual, "snap")
 		So(err, ShouldBeNil)
 		sp, err = interfaceToString(expl6)
 		So(sp, ShouldResemble, "")
@@ -113,7 +113,7 @@ func TestGetPostgreSQLConn(t *testing.T) {
 	config := make(map[string]ctypes.ConfigValue)
 	config["username"] = ctypes.ConfigValueStr{Value: "root"}
 	config["password"] = ctypes.ConfigValueStr{Value: "root"}
-	config["database"] = ctypes.ConfigValueStr{Value: "PULSE_TEST"}
+	config["database"] = ctypes.ConfigValueStr{Value: "SNAP_TEST"}
 	config["table_name"] = ctypes.ConfigValueStr{Value: "info"}
 	GetPostgreSQLConn := func(config map[string]ctypes.ConfigValue) (*sql.DB, error) {
 		db, err := GetSqlMock()
@@ -132,7 +132,7 @@ func TestCreateTable(t *testing.T) {
 	config := make(map[string]ctypes.ConfigValue)
 	config["username"] = ctypes.ConfigValueStr{Value: "root"}
 	config["password"] = ctypes.ConfigValueStr{Value: "root"}
-	config["database"] = ctypes.ConfigValueStr{Value: "PULSE_TEST"}
+	config["database"] = ctypes.ConfigValueStr{Value: "SNAP_TEST"}
 	config["table_name"] = ctypes.ConfigValueStr{Value: "info"}
 	GetPostgreSQLConn := func(config map[string]ctypes.ConfigValue) (*sql.DB, error) {
 		db, err := GetSqlMock()
@@ -165,13 +165,13 @@ func TestPostgreSQLPublish(t *testing.T) {
 	//mock.ExpectBegin()
 	exp_time := time.Now()
 	metrics := []plugin.PluginMetricType{
-		*plugin.NewPluginMetricType([]string{"test_string"}, exp_time, "", "example_string"),
-		*plugin.NewPluginMetricType([]string{"test_int"}, exp_time, "", 1),
-		*plugin.NewPluginMetricType([]string{"test_int"}, exp_time, "", true),
-		*plugin.NewPluginMetricType([]string{"test_float"}, exp_time, "", 1.12),
-		*plugin.NewPluginMetricType([]string{"test_string_slice"}, exp_time, "", []string{"str1", "str2"}),
-		*plugin.NewPluginMetricType([]string{"test_string_slice"}, exp_time, "", []int{1, 2}),
-		*plugin.NewPluginMetricType([]string{"test_uint8"}, exp_time, "", uint8(1)),
+		*plugin.NewPluginMetricType([]string{"test_string"}, exp_time, "", nil, nil, "example_string"),
+		*plugin.NewPluginMetricType([]string{"test_int"}, exp_time, "", nil, nil, 1),
+		*plugin.NewPluginMetricType([]string{"test_int"}, exp_time, "", nil, nil, true),
+		*plugin.NewPluginMetricType([]string{"test_float"}, exp_time, "", nil, nil, 1.12),
+		*plugin.NewPluginMetricType([]string{"test_string_slice"}, exp_time, "", nil, nil, []string{"str1", "str2"}),
+		*plugin.NewPluginMetricType([]string{"test_string_slice"}, exp_time, "", nil, nil, []int{1, 2}),
+		*plugin.NewPluginMetricType([]string{"test_uint8"}, exp_time, "", nil, nil, uint8(1)),
 	}
 	config := make(map[string]ctypes.ConfigValue)
 	enc := gob.NewEncoder(&buf)
@@ -182,13 +182,13 @@ func TestPostgreSQLPublish(t *testing.T) {
 		config["port"] = ctypes.ConfigValueInt{Value: 5432}
 		config["username"] = ctypes.ConfigValueStr{Value: "postgres"}
 		config["password"] = ctypes.ConfigValueStr{Value: ""}
-		config["database"] = ctypes.ConfigValueStr{Value: "pulse_test"}
+		config["database"] = ctypes.ConfigValueStr{Value: "snap_test"}
 		config["table_name"] = ctypes.ConfigValueStr{Value: "info"}
 		sp := NewPostgreSQLPublisher()
 		So(sp, ShouldNotBeNil)
 		err := sp.Publish("", buf.Bytes(), config)
 		So(err, ShouldResemble, errors.New("Unknown content type ''"))
-		err = sp.Publish(plugin.PulseGOBContentType, buf.Bytes(), config)
+		err = sp.Publish(plugin.SnapGOBContentType, buf.Bytes(), config)
 		meta := Meta()
 		So(meta, ShouldNotBeNil)
 	})

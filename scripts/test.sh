@@ -100,6 +100,6 @@ if [[ $TEST_SUITE == "unit" ]]; then
 	#     done
 	# fi
 elif [[ $TEST_SUITE == "integration"  ]]; then
-    cd $PULSE_PLUGIN_SOURCE
-    PULSE_POSTGRESQL_HOST=127.0.0.1 go test -v --tags=integration ./...
+    cd $SNAP_PLUGIN_SOURCE
+    SNAP_POSTGRESQL_HOST=127.0.0.1 go test -v --tags=integration ./...
 fi

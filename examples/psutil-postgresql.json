@@ -28,10 +28,10 @@
                             "config": {
                                 "hostname": "localhost",
                                 "port": 5432,
-                                "username": "pulse",
-                                "table_name": "pulse",
-                                "database": "pulse",
-                                "password": "pulse"
+                                "username": "snap",
+                                "table_name": "snap",
+                                "database": "snap",
+                                "password": "snap"
                             }
                         }
                     ],
