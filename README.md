@@ -17,22 +17,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-# **pulse-plugin-publisher-postgresql**
-Pulse Publisher Plugin to PostgreSQL
+# **snap-plugin-publisher-postgresql**
+snap publisher plugin to PostgreSQL
 
-[![Build Status](https://magnum.travis-ci.com/intelsdi-x/pulse-plugin-publisher-postgresql.svg?token=2ujsxEpZo1issFyVWX29&branch=master)](https://magnum.travis-ci.com/intelsdi-x/pulse-plugin-publisher-postgresql)
+[![Build Status](https://api.travis-ci.com/intelsdi-x/snap-plugin-publisher-postgresql.svg?token=FhmCtm9AdqhSXoSbqxo2&branch=master)](https://travis-ci.com/intelsdi-x/snap-plugin-publisher-postgresql)
 
 ## Description
-    This plugin publishes data into PostgreSQL for Pulse compliant collectors.
+    This plugin publishes data into PostgreSQL for Snap compliant collectors.
 
 ## Dependencies
-    It requires project Pulse: https://github.com/intelsdi-x/pulse.
+    It requires project Snap: https://github.com/intelsdi-x/snap.
 
 ## Configuration
-    1. Set PULSE_PATH envoriment variable for running an example.
+    1. Set SNAP_PATH envoriment variable for running an example.
     2. Change sample configuration in ./examples/psutil-postgresql.json file
     3. Run the example task from the source root directory. E.g. 
-    pulsectl task create -t ./examples/psutil-postgresql.json
+    snapctl task create -t ./examples/psutil-postgresql.json
 
 
 ## Details
