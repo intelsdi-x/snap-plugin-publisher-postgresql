@@ -1,6 +1,6 @@
 # snap publisher plugin - PostgreSQL
 
-[![Build Status](https://api.travis-ci.com/intelsdi-x/snap-plugin-publisher-postgresql.svg?token=FhmCtm9AdqhSXoSbqxo2&branch=master)](https://travis-ci.com/intelsdi-x/snap-plugin-publisher-postgresql)
+[![Build Status](https://api.travis-ci.org/intelsdi-x/snap-plugin-publisher-postgresql.svg)](https://travis-ci.org/intelsdi-x/snap-plugin-publisher-postgresql)
 
 1. [Getting Started](#getting-started)
   * [System Requirements](#system-requirements)
