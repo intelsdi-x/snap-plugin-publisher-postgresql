@@ -116,7 +116,7 @@ func TestGetPostgreSQLConn(t *testing.T) {
 	config["database"] = ctypes.ConfigValueStr{Value: "SNAP_TEST"}
 	config["table_name"] = ctypes.ConfigValueStr{Value: "info"}
 	GetPostgreSQLConn := func(config map[string]ctypes.ConfigValue) (*sql.DB, error) {
-		db, err := GetSqlMock()
+		db, err := GetSQLMock()
 		return db, err
 	}
 	GetPostgreSQLConn(config)
@@ -135,7 +135,7 @@ func TestCreateTable(t *testing.T) {
 	config["database"] = ctypes.ConfigValueStr{Value: "SNAP_TEST"}
 	config["table_name"] = ctypes.ConfigValueStr{Value: "info"}
 	GetPostgreSQLConn := func(config map[string]ctypes.ConfigValue) (*sql.DB, error) {
-		db, err := GetSqlMock()
+		db, err := GetSQLMock()
 		return db, err
 	}
 	GetPostgreSQLConn(config)
@@ -144,13 +144,13 @@ func TestCreateTable(t *testing.T) {
 	Convey("TestGetPostgreSQL", t, func() {
 		conn, err := GetPostgreSQLConn(config)
 
-		sp, err := CreateTable(conn, tableName)
+		sp, err := createTable(conn, tableName)
 		So(sp, ShouldNotBeNil)
 		So(err, ShouldBeNil)
 	})
 }
 
-func GetSqlMock() (*sql.DB, error) {
+func GetSQLMock() (*sql.DB, error) {
 	db, mock, err := sqlmock.New()
 	mock.ExpectExec("^CREATE TABLE IF NOT EXISTS (.+)$").WillReturnResult(sqlmock.NewResult(0, 1))
 	if err != nil {
@@ -163,15 +163,15 @@ func GetSqlMock() (*sql.DB, error) {
 func TestPostgreSQLPublish(t *testing.T) {
 	var buf bytes.Buffer
 	//mock.ExpectBegin()
-	exp_time := time.Now()
+	expTime := time.Now()
 	metrics := []plugin.PluginMetricType{
-		*plugin.NewPluginMetricType([]string{"test_string"}, exp_time, "", nil, nil, "example_string"),
-		*plugin.NewPluginMetricType([]string{"test_int"}, exp_time, "", nil, nil, 1),
-		*plugin.NewPluginMetricType([]string{"test_int"}, exp_time, "", nil, nil, true),
-		*plugin.NewPluginMetricType([]string{"test_float"}, exp_time, "", nil, nil, 1.12),
-		*plugin.NewPluginMetricType([]string{"test_string_slice"}, exp_time, "", nil, nil, []string{"str1", "str2"}),
-		*plugin.NewPluginMetricType([]string{"test_string_slice"}, exp_time, "", nil, nil, []int{1, 2}),
-		*plugin.NewPluginMetricType([]string{"test_uint8"}, exp_time, "", nil, nil, uint8(1)),
+		*plugin.NewPluginMetricType([]string{"test_string"}, expTime, "", nil, nil, "example_string"),
+		*plugin.NewPluginMetricType([]string{"test_int"}, expTime, "", nil, nil, 1),
+		*plugin.NewPluginMetricType([]string{"test_int"}, expTime, "", nil, nil, true),
+		*plugin.NewPluginMetricType([]string{"test_float"}, expTime, "", nil, nil, 1.12),
+		*plugin.NewPluginMetricType([]string{"test_string_slice"}, expTime, "", nil, nil, []string{"str1", "str2"}),
+		*plugin.NewPluginMetricType([]string{"test_string_slice"}, expTime, "", nil, nil, []int{1, 2}),
+		*plugin.NewPluginMetricType([]string{"test_uint8"}, expTime, "", nil, nil, uint8(1)),
 	}
 	config := make(map[string]ctypes.ConfigValue)
 	enc := gob.NewEncoder(&buf)
