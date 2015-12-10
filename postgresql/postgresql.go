@@ -35,6 +35,7 @@ import (
 	"github.com/intelsdi-x/snap/control/plugin"
 	"github.com/intelsdi-x/snap/control/plugin/cpolicy"
 	"github.com/intelsdi-x/snap/core/ctypes"
+	// Import of postgresql library
 	_ "github.com/lib/pq"
 )
 
@@ -46,9 +47,11 @@ const (
 	timeFormat   = time.RFC3339
 )
 
+// PostgreSQLPublisher struct
 type PostgreSQLPublisher struct {
 }
 
+// NewPostgreSQLPublisher return new PostgreSQL instance
 func NewPostgreSQLPublisher() *PostgreSQLPublisher {
 	return &PostgreSQLPublisher{}
 }
@@ -68,7 +71,7 @@ func (s *PostgreSQLPublisher) Publish(contentType string, content []byte, config
 		}
 	default:
 		logger.Printf("Error unknown content type '%v'", contentType)
-		return errors.New(fmt.Sprintf("Unknown content type '%s'", contentType))
+		return fmt.Errorf("Unknown content type '%s'", contentType)
 	}
 
 	logger.Printf("publishing %v to %v", metrics, config)
@@ -76,7 +79,7 @@ func (s *PostgreSQLPublisher) Publish(contentType string, content []byte, config
 	tableName := config["table_name"].(ctypes.ConfigValueStr).Value
 
 	// Open connection and ping to make sure it works
-	db, err := GetPostgreSQLConn(config)
+	db, err := getPostgreSQLConn(config)
 	if err != nil {
 		logger.Printf("Error: %v", err)
 		return err
@@ -93,9 +96,9 @@ func (s *PostgreSQLPublisher) Publish(contentType string, content []byte, config
 			query := fmt.Sprintf("INSERT INTO %s (id, time_posted, key_column, value_column) VALUES (DEFAULT, '%s', '%s', '%s')", tableName, nowTime, key, value)
 			_, err := db.Exec(query)
 			if err != nil {
-				err_msg := fmt.Sprintf("pq: relation \"%s\" does not exist", tableName)
-				if err.Error() == err_msg {
-					_, err = CreateTable(db, tableName)
+				errMsg := fmt.Sprintf("pq: relation \"%s\" does not exist", tableName)
+				if err.Error() == errMsg {
+					_, err = createTable(db, tableName)
 					if err != nil {
 						logger.Printf("Error: %v", err)
 						return err
@@ -113,11 +116,12 @@ func (s *PostgreSQLPublisher) Publish(contentType string, content []byte, config
 	return nil
 }
 
+// Meta returns plugin meta data info
 func Meta() *plugin.PluginMeta {
 	return plugin.NewPluginMeta(name, version, pluginType, []string{plugin.SnapGOBContentType}, []string{plugin.SnapGOBContentType})
 }
 
-func GetPostgreSQLConn(config map[string]ctypes.ConfigValue) (*sql.DB, error) {
+func getPostgreSQLConn(config map[string]ctypes.ConfigValue) (*sql.DB, error) {
 	logger := log.New()
 	hostName := config["hostname"].(ctypes.ConfigValueStr).Value
 	port := config["port"].(ctypes.ConfigValueInt).Value
@@ -138,7 +142,7 @@ func GetPostgreSQLConn(config map[string]ctypes.ConfigValue) (*sql.DB, error) {
 	return db, err
 }
 
-func CreateTable(db *sql.DB, tableName string) (bool, error) {
+func createTable(db *sql.DB, tableName string) (bool, error) {
 	logger := log.New()
 	query := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s %s", tableName, tableColumns)
 	_, err := db.Exec(query)
@@ -155,7 +159,8 @@ func CreateTable(db *sql.DB, tableName string) (bool, error) {
 	return true, err
 }
 
-func (f *PostgreSQLPublisher) GetConfigPolicy() (*cpolicy.ConfigPolicy, error) {
+// GetConfigPolicy returns a config policy
+func (s *PostgreSQLPublisher) GetConfigPolicy() (*cpolicy.ConfigPolicy, error) {
 	cp := cpolicy.New()
 	config := cpolicy.NewPolicyNode()
 

@@ -1,6 +1,9 @@
 # snap publisher plugin - PostgreSQL
 
 [![Build Status](https://api.travis-ci.org/intelsdi-x/snap-plugin-publisher-postgresql.svg)](https://travis-ci.org/intelsdi-x/snap-plugin-publisher-postgresql)
+[![Go Report Card](http://goreportcard.com/badge/intelsdi-x/snap-plugin-publisher-postgresql)](http://goreportcard.com/report/intelsdi-x/snap-plugin-publisher-postgresql)
+
+
 
 1. [Getting Started](#getting-started)
   * [System Requirements](#system-requirements)
