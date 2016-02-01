@@ -41,7 +41,7 @@ import (
 
 const (
 	name         = "postgresql"
-	version      = 5
+	version      = 6
 	pluginType   = plugin.PublisherPluginType
 	tableColumns = "(id SERIAL PRIMARY KEY, time_posted timestamp with time zone, key_column VARCHAR(200), value_column VARCHAR(200))"
 	timeFormat   = time.RFC3339
