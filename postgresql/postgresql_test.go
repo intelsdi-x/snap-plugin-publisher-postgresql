@@ -34,6 +34,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/intelsdi-x/snap/control/plugin"
+	"github.com/intelsdi-x/snap/core"
 	"github.com/intelsdi-x/snap/core/ctypes"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -164,14 +165,14 @@ func TestPostgreSQLPublish(t *testing.T) {
 	var buf bytes.Buffer
 	//mock.ExpectBegin()
 	expTime := time.Now()
-	metrics := []plugin.PluginMetricType{
-		*plugin.NewPluginMetricType([]string{"test_string"}, expTime, "", nil, nil, "example_string"),
-		*plugin.NewPluginMetricType([]string{"test_int"}, expTime, "", nil, nil, 1),
-		*plugin.NewPluginMetricType([]string{"test_int"}, expTime, "", nil, nil, true),
-		*plugin.NewPluginMetricType([]string{"test_float"}, expTime, "", nil, nil, 1.12),
-		*plugin.NewPluginMetricType([]string{"test_string_slice"}, expTime, "", nil, nil, []string{"str1", "str2"}),
-		*plugin.NewPluginMetricType([]string{"test_string_slice"}, expTime, "", nil, nil, []int{1, 2}),
-		*plugin.NewPluginMetricType([]string{"test_uint8"}, expTime, "", nil, nil, uint8(1)),
+	metrics := []plugin.MetricType{
+		*plugin.NewMetricType(core.NewNamespace("test_string"), expTime, nil, "", "example_string"),
+		*plugin.NewMetricType(core.NewNamespace("test_int"), expTime, nil, "", 1),
+		*plugin.NewMetricType(core.NewNamespace("test_int"), expTime, nil, "", true),
+		*plugin.NewMetricType(core.NewNamespace("test_float"), expTime, nil, "", 1.12),
+		*plugin.NewMetricType(core.NewNamespace("test_string_slice"), expTime, nil, "", []string{"str1", "str2"}),
+		*plugin.NewMetricType(core.NewNamespace("test_string_slice"), expTime, nil, "", []int{1, 2}),
+		*plugin.NewMetricType(core.NewNamespace("test_uint8"), expTime, nil, "", uint8(1)),
 	}
 	config := make(map[string]ctypes.ConfigValue)
 	enc := gob.NewEncoder(&buf)

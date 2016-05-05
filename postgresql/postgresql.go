@@ -41,7 +41,7 @@ import (
 
 const (
 	name         = "postgresql"
-	version      = 6
+	version      = 7
 	pluginType   = plugin.PublisherPluginType
 	tableColumns = "(id SERIAL PRIMARY KEY, time_posted timestamp with time zone, key_column VARCHAR(200), value_column VARCHAR(200))"
 	timeFormat   = time.RFC3339
@@ -60,7 +60,7 @@ func NewPostgreSQLPublisher() *PostgreSQLPublisher {
 func (s *PostgreSQLPublisher) Publish(contentType string, content []byte, config map[string]ctypes.ConfigValue) error {
 	logger := log.New()
 	logger.Println("Publishing started")
-	var metrics []plugin.PluginMetricType
+	var metrics []plugin.MetricType
 
 	switch contentType {
 	case plugin.SnapGOBContentType:
@@ -90,7 +90,7 @@ func (s *PostgreSQLPublisher) Publish(contentType string, content []byte, config
 	nowTime := time.Now().Format(timeFormat)
 	var key, value string
 	for _, m := range metrics {
-		key = sliceToNamespace(m.Namespace())
+		key = sliceToNamespace(m.Namespace().Strings())
 		value, err = interfaceToString(m.Data())
 		if err == nil {
 			query := fmt.Sprintf("INSERT INTO %s (id, time_posted, key_column, value_column) VALUES (DEFAULT, '%s', '%s', '%s')", tableName, nowTime, key, value)
