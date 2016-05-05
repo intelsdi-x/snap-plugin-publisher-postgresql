@@ -1,15 +1,8 @@
 {
 	"ImportPath": "github.com/intelsdi-x/snap-plugin-publisher-postgresql",
-	"GoVersion": "go1.5",
-	"Packages": [
-		"./..."
-	],
+	"GoVersion": "go1.6",
+	"GodepVersion": "v63",
 	"Deps": [
-		{
-			"ImportPath": "github.com/DATA-DOG/go-sqlmock",
-			"Comment": "v1.0.0",
-			"Rev": "febff80c09712044459f72847e56aaa69c9dad3b"
-		},
 		{
 			"ImportPath": "github.com/Sirupsen/logrus",
 			"Comment": "v0.7.3",
@@ -21,31 +14,62 @@
 		},
 		{
 			"ImportPath": "github.com/intelsdi-x/snap/control/plugin",
-			"Comment": "v0.11.0-beta",
-			"Rev": "42d9567651258bba268d94701eb171458e459645"
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
+		},
+		{
+			"ImportPath": "github.com/intelsdi-x/snap/control/plugin/cpolicy",
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
+		},
+		{
+			"ImportPath": "github.com/intelsdi-x/snap/control/plugin/encoding",
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
+		},
+		{
+			"ImportPath": "github.com/intelsdi-x/snap/control/plugin/encrypter",
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
 		},
 		{
 			"ImportPath": "github.com/intelsdi-x/snap/core",
-			"Comment": "v0.11.0-beta",
-			"Rev": "42d9567651258bba268d94701eb171458e459645"
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
+		},
+		{
+			"ImportPath": "github.com/intelsdi-x/snap/core/cdata",
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
+		},
+		{
+			"ImportPath": "github.com/intelsdi-x/snap/core/ctypes",
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
+		},
+		{
+			"ImportPath": "github.com/intelsdi-x/snap/core/serror",
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
 		},
 		{
 			"ImportPath": "github.com/intelsdi-x/snap/pkg/ctree",
-			"Comment": "v0.11.0-beta",
-			"Rev": "42d9567651258bba268d94701eb171458e459645"
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
 		},
 		{
 			"ImportPath": "github.com/intelsdi-x/snap/pkg/schedule",
-			"Comment": "v0.11.0-beta",
-			"Rev": "42d9567651258bba268d94701eb171458e459645"
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
 		},
 		{
 			"ImportPath": "github.com/intelsdi-x/snap/scheduler/wmap",
-			"Comment": "v0.11.0-beta",
-			"Rev": "42d9567651258bba268d94701eb171458e459645"
+			"Comment": "v0.13.0-beta-77-g5c1177e",
+			"Rev": "5c1177efc47eccc10dc459e3be44083372ea08c3"
 		},
 		{
 			"ImportPath": "github.com/jtolds/gls",
+			"Comment": "v4.2.0",
 			"Rev": "8ddce2a84170772b95dd5d576c48d517b22cac63"
 		},
 		{
@@ -54,12 +78,42 @@
 			"Rev": "b269bd035a727d6c1081f76e7a239a1b00674c40"
 		},
 		{
+			"ImportPath": "github.com/lib/pq/oid",
+			"Comment": "go1.0-cutoff-59-gb269bd0",
+			"Rev": "b269bd035a727d6c1081f76e7a239a1b00674c40"
+		},
+		{
+			"ImportPath": "github.com/robfig/cron",
+			"Comment": "v1-7-g32d9c27",
+			"Rev": "32d9c273155a0506d27cf73dd1246e86a470997e"
+		},
+		{
 			"ImportPath": "github.com/smartystreets/assertions",
 			"Comment": "1.5.0-412-g443d812",
 			"Rev": "443d812296a84445c202c085f19e18fc238f8250"
 		},
 		{
+			"ImportPath": "github.com/smartystreets/assertions/internal/go-render/render",
+			"Comment": "1.5.0-412-g443d812",
+			"Rev": "443d812296a84445c202c085f19e18fc238f8250"
+		},
+		{
+			"ImportPath": "github.com/smartystreets/assertions/internal/oglematchers",
+			"Comment": "1.5.0-412-g443d812",
+			"Rev": "443d812296a84445c202c085f19e18fc238f8250"
+		},
+		{
 			"ImportPath": "github.com/smartystreets/goconvey/convey",
+			"Comment": "1.6.0-10-g995f5b2",
+			"Rev": "995f5b2e021c69b8b028ba6d0b05c1dd500783db"
+		},
+		{
+			"ImportPath": "github.com/smartystreets/goconvey/convey/gotest",
+			"Comment": "1.6.0-10-g995f5b2",
+			"Rev": "995f5b2e021c69b8b028ba6d0b05c1dd500783db"
+		},
+		{
+			"ImportPath": "github.com/smartystreets/goconvey/convey/reporting",
 			"Comment": "1.6.0-10-g995f5b2",
 			"Rev": "995f5b2e021c69b8b028ba6d0b05c1dd500783db"
 		},

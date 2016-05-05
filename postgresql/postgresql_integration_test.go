@@ -29,6 +29,7 @@ import (
 	"time"
 
 	"github.com/intelsdi-x/snap/control/plugin"
+	"github.com/intelsdi-x/snap/core"
 	"github.com/intelsdi-x/snap/core/ctypes"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -52,8 +53,8 @@ func TestPostgresPublish(t *testing.T) {
 		cfg, _ := cp.Get([]string{""}).Process(config)
 
 		Convey("Publish integer metric", func() {
-			metrics := []plugin.PluginMetricType{
-				*plugin.NewPluginMetricType([]string{"foo"}, time.Now(), "", nil, nil, 99),
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("foo"), time.Now(), nil, "", 99),
 			}
 			buf.Reset()
 			enc := gob.NewEncoder(&buf)
@@ -63,8 +64,8 @@ func TestPostgresPublish(t *testing.T) {
 		})
 
 		Convey("Publish float metric", func() {
-			metrics := []plugin.PluginMetricType{
-				*plugin.NewPluginMetricType([]string{"bar"}, time.Now(), "", nil, nil, 3.141),
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("bar"), time.Now(), nil, "", 3.141),
 			}
 			buf.Reset()
 			enc := gob.NewEncoder(&buf)
@@ -74,8 +75,8 @@ func TestPostgresPublish(t *testing.T) {
 		})
 
 		Convey("Publish string metric", func() {
-			metrics := []plugin.PluginMetricType{
-				*plugin.NewPluginMetricType([]string{"qux"}, time.Now(), "", nil, nil, "bar"),
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("qux"), time.Now(), nil, "", "bar"),
 			}
 			buf.Reset()
 			enc := gob.NewEncoder(&buf)
@@ -85,8 +86,8 @@ func TestPostgresPublish(t *testing.T) {
 		})
 
 		Convey("Publish boolean metric", func() {
-			metrics := []plugin.PluginMetricType{
-				*plugin.NewPluginMetricType([]string{"baz"}, time.Now(), "", nil, nil, true),
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("baz"), time.Now(), nil, "", true),
 			}
 			buf.Reset()
 			enc := gob.NewEncoder(&buf)
@@ -96,9 +97,9 @@ func TestPostgresPublish(t *testing.T) {
 		})
 
 		Convey("Publish multiple metrics", func() {
-			metrics := []plugin.PluginMetricType{
-				*plugin.NewPluginMetricType([]string{"foo"}, time.Now(), "", nil, nil, 101),
-				*plugin.NewPluginMetricType([]string{"bar"}, time.Now(), "", nil, nil, 5.789),
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("foo"), time.Now(), nil, "", 101),
+				*plugin.NewMetricType(core.NewNamespace("bar"), time.Now(), nil, "", 5.789),
 			}
 			buf.Reset()
 			enc := gob.NewEncoder(&buf)
