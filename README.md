@@ -168,3 +168,5 @@ There's more than one way to give back, from examples to blogs to code updates. 
 * Author: [Marcin Spoczynski](https://github.com/sandlbn/)
 
 And **thank you!** Your contribution, through code and participation, is incredibly important to us.
+
+This software has been contributed by MIKELANGELO, a Horizon 2020 project co-funded by the European Union. https://www.mikelangelo-project.eu/
