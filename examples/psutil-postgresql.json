@@ -7,24 +7,17 @@
     "workflow": {
         "collect": {
             "metrics": {
-                "/psutil/load/load1": {},
-                "/psutil/load/load15": {}
+                "/intel/psutil/load/load1": {},
+                "/intel/psutil/load/load15": {}
             },
-            "config": {
-                "/intel/dummy": {
-                    "password": "secret",
-                    "user": "root"
-                }
-            },
+            "config": null,
             "process": [
                 {
                     "plugin_name": "passthru",
-                    "plugin_version": 1,
                     "process": null,
                     "publish": [
                         {
                             "plugin_name": "postgresql",
-                            "plugin_version": 3,
                             "config": {
                                 "hostname": "localhost",
                                 "port": 5432,
