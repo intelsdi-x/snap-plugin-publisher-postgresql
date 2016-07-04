@@ -58,14 +58,14 @@ Documentation for snap collector psutil plugin can be found here (https://github
 
 In one terminal window, open the snap daemon :
 ```
-$ snapd -l 1
+$ snapd -l 1 -t 0
 ```
 
 In another terminal window:
 
 Load postgresql plugin
 ```
-$ snapctl plugin load $SNAP_POSTGRESQL_PLUGIN/build/rootfs/snap-plugin-publisher-postggresql
+$ snapctl plugin load $SNAP_POSTGRESQL_PLUGIN/build/rootfs/snap-plugin-publisher-postgresql
 
 ```
 
@@ -90,8 +90,8 @@ Create a task JSON file for example sample-task.json:
     "workflow": {
         "collect": {
             "metrics": {
-                "/psutil/load/load1": {},
-                "/psutil/load/load15": {}
+                "/intel/psutil/load/load1": {},
+                "/intel/psutil/load/load15": {}
             },
             "process": [
                 {
@@ -142,10 +142,10 @@ State: Running
 
 Example postgresql table
 
-|     time_posted       |     key_column      | value_column  |
-|-----------------------|:-------------------:|--------------:|
-|2015-09-24 10:06:15+00 | psutil, load, load1 | 1.58          |
-
+|     time_posted       |     key_column           | value_column  |
+|-----------------------|:------------------------:|--------------:|
+|2015-09-24 10:06:15+00 | intel.psutil.load.load1  | 1.58          |
+|2015-09-24 10:06:15+00 | intel.psutil.load.load15 | 2.43          |
 
 ### Roadmap
 As we launch this plugin, we do not have any outstanding requirements for the next release. If you have a feature request, please add it as an [issue](https://github.com/intelsdi-x/snap-plugin-publisher-postgresql/issues).
