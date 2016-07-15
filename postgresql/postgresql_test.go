@@ -167,12 +167,20 @@ func TestPostgreSQLPublish(t *testing.T) {
 	expTime := time.Now()
 	metrics := []plugin.MetricType{
 		*plugin.NewMetricType(core.NewNamespace("test_string"), expTime, nil, "", "example_string"),
-		*plugin.NewMetricType(core.NewNamespace("test_int"), expTime, nil, "", 1),
-		*plugin.NewMetricType(core.NewNamespace("test_int"), expTime, nil, "", true),
+		*plugin.NewMetricType(core.NewNamespace("test_int"), expTime, nil, "", int(-1)),
+		*plugin.NewMetricType(core.NewNamespace("test_int64"), expTime, nil, "", int64(1)),
+		*plugin.NewMetricType(core.NewNamespace("test_uint"), expTime, nil, "", uint(1)),
+		*plugin.NewMetricType(core.NewNamespace("test_uint64"), expTime, nil, "", uint64(1)),
 		*plugin.NewMetricType(core.NewNamespace("test_float"), expTime, nil, "", 1.12),
+		*plugin.NewMetricType(core.NewNamespace("test_float64"), expTime, nil, "", float64(-1.23)),
+		*plugin.NewMetricType(core.NewNamespace("test_bool"), expTime, nil, "", true),
+
 		*plugin.NewMetricType(core.NewNamespace("test_string_slice"), expTime, nil, "", []string{"str1", "str2"}),
-		*plugin.NewMetricType(core.NewNamespace("test_string_slice"), expTime, nil, "", []int{1, 2}),
-		*plugin.NewMetricType(core.NewNamespace("test_uint8"), expTime, nil, "", uint8(1)),
+		*plugin.NewMetricType(core.NewNamespace("test_int_slice"), expTime, nil, "", []int{-1, 2}),
+		*plugin.NewMetricType(core.NewNamespace("test_int64_slice"), expTime, nil, "", []int64{-1, 2}),
+		*plugin.NewMetricType(core.NewNamespace("test_uint_slice"), expTime, nil, "", []uint{1, 2}),
+		*plugin.NewMetricType(core.NewNamespace("test_uint64_slice"), expTime, nil, "", []uint64{1, 2}),
+		*plugin.NewMetricType(core.NewNamespace("test_float64_slice"), expTime, nil, "", []float64{1.23, -1.23}),
 	}
 	config := make(map[string]ctypes.ConfigValue)
 	enc := gob.NewEncoder(&buf)

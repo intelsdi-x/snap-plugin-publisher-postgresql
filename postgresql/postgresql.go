@@ -22,8 +22,8 @@ package postgresql
 import (
 	"bytes"
 	"encoding/gob"
-	"errors"
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -41,7 +41,7 @@ import (
 
 const (
 	name         = "postgresql"
-	version      = 7
+	version      = 8
 	pluginType   = plugin.PublisherPluginType
 	tableColumns = "(id SERIAL PRIMARY KEY, time_posted timestamp with time zone, key_column VARCHAR(200), value_column VARCHAR(200))"
 	timeFormat   = time.RFC3339
@@ -216,14 +216,21 @@ func interfaceToString(face interface{}) (string, error) {
 		err error
 	)
 	switch val := face.(type) {
+	case string:
+		ret = val
 	case []string:
 		ret = sliceToString(val)
+
 	case bool:
 		if val == true {
 			ret = "1"
 		} else {
 			ret = "0"
 		}
+
+	case int:
+		ret = strconv.Itoa(val)
+
 	case []int:
 		length := len(val)
 		if length == 0 {
@@ -237,14 +244,77 @@ func interfaceToString(face interface{}) (string, error) {
 			ret += ", "
 			ret += strconv.Itoa(val[i])
 		}
-	case int:
-		ret = strconv.Itoa(val)
+	case int64:
+		ret = strconv.FormatInt(val, 10)
+
+	case []int64:
+		length := len(val)
+		if length == 0 {
+			return ret, err
+		}
+		ret = strconv.FormatInt(val[0], 10)
+		if length == 1 {
+			return ret, err
+		}
+		for i := 1; i < length; i++ {
+			ret += ", "
+			ret += strconv.FormatInt(val[i], 10)
+		}
+
+	case uint:
+		ret = strconv.Itoa(int(val))
+
+	case []uint:
+		length := len(val)
+		if length == 0 {
+			return ret, err
+		}
+		ret = strconv.Itoa(int(val[0]))
+		if length == 1 {
+			return ret, err
+		}
+		for i := 1; i < length; i++ {
+			ret += ", "
+			ret += strconv.Itoa(int(val[i]))
+		}
+
+	case uint64:
+		ret = strconv.FormatUint(val, 10)
+
+	case []uint64:
+		length := len(val)
+		if length == 0 {
+			return ret, err
+		}
+		ret = strconv.FormatUint(val[0], 10)
+		if length == 1 {
+			return ret, err
+		}
+		for i := 1; i < length; i++ {
+			ret += ", "
+			ret += strconv.FormatUint(val[i], 10)
+		}
+
 	case float64:
 		ret = strconv.FormatFloat(val, 'g', -1, 64)
-	case string:
-		ret = val
+
+	case []float64:
+		length := len(val)
+		if length == 0 {
+			return ret, err
+		}
+		ret = strconv.FormatFloat(val[0], 'g', -1, 64)
+		if length == 1 {
+			return ret, err
+		}
+		for i := 1; i < length; i++ {
+			ret += ", "
+			ret += strconv.FormatFloat(val[i], 'g', -1, 64)
+		}
+
 	default:
-		err = errors.New("unsupported type")
+		err = fmt.Errorf("Unsupported type %v (currently supported data type: string, []string, bool, int, []int, int64, []int64, uint, []uint, uint64, []uint64, float64, []float64)", reflect.TypeOf(val))
 	}
+
 	return ret, err
 }

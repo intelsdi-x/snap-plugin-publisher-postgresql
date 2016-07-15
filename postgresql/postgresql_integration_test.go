@@ -52,9 +52,42 @@ func TestPostgresPublish(t *testing.T) {
 		cp, _ := ip.GetConfigPolicy()
 		cfg, _ := cp.Get([]string{""}).Process(config)
 
-		Convey("Publish integer metric", func() {
+		Convey("Publish integer metric (int)", func() {
 			metrics := []plugin.MetricType{
 				*plugin.NewMetricType(core.NewNamespace("foo"), time.Now(), nil, "", 99),
+			}
+			buf.Reset()
+			enc := gob.NewEncoder(&buf)
+			enc.Encode(metrics)
+			err := ip.Publish(plugin.SnapGOBContentType, buf.Bytes(), *cfg)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("Publish integer metric (int64)", func() {
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("foo"), time.Now(), nil, "", int64(99)),
+			}
+			buf.Reset()
+			enc := gob.NewEncoder(&buf)
+			enc.Encode(metrics)
+			err := ip.Publish(plugin.SnapGOBContentType, buf.Bytes(), *cfg)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("Publish unsigned integer metric (uint)", func() {
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("foo"), time.Now(), nil, "", uint(99)),
+			}
+			buf.Reset()
+			enc := gob.NewEncoder(&buf)
+			enc.Encode(metrics)
+			err := ip.Publish(plugin.SnapGOBContentType, buf.Bytes(), *cfg)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("Publish unsigned integer metric (uint64)", func() {
+			metrics := []plugin.MetricType{
+				*plugin.NewMetricType(core.NewNamespace("foo"), time.Now(), nil, "", uint64(99)),
 			}
 			buf.Reset()
 			enc := gob.NewEncoder(&buf)
