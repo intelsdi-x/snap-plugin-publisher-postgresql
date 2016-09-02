@@ -24,7 +24,6 @@ import (
 	"encoding/gob"
 	"fmt"
 	"reflect"
-	"strconv"
 	"strings"
 	"time"
 
@@ -41,7 +40,7 @@ import (
 
 const (
 	name         = "postgresql"
-	version      = 8
+	version      = 9
 	pluginType   = plugin.PublisherPluginType
 	tableColumns = "(id SERIAL PRIMARY KEY, time_posted timestamp with time zone, key_column VARCHAR(200), value_column VARCHAR(200))"
 	timeFormat   = time.RFC3339
@@ -209,112 +208,38 @@ func sliceToNamespace(slice []string) string {
 	return strings.Join(slice, ".")
 }
 
-// Supported types: []string, []int, int, float64, string
 func interfaceToString(face interface{}) (string, error) {
 	var (
 		ret string
 		err error
 	)
-	switch val := face.(type) {
-	case string:
-		ret = val
-	case []string:
-		ret = sliceToString(val)
 
+	switch face.(type) {
+	case int, int8, int16, int32, int64,
+		uint, uint8, uint16, uint32, uint64,
+		float32, float64,
+		string:
+
+		ret = fmt.Sprintf("%v", face)
+
+	case []uint, []uint8, []uint16, []uint32, []uint64,
+		[]int, []int8, []int16, []int32, []int64,
+		[]float32, []float64:
+		ret = strings.Trim(strings.Replace(fmt.Sprintf("%v", face), " ", ", ", -1), "[]")
+	case []string:
+		//special case for slice of strings to deal with spaces and `[]` in elements of slice
+		ret = strings.Join(face.([]string), ", ")
 	case bool:
-		if val == true {
+		if face.(bool) {
 			ret = "1"
 		} else {
 			ret = "0"
 		}
-
-	case int:
-		ret = strconv.Itoa(val)
-
-	case []int:
-		length := len(val)
-		if length == 0 {
-			return ret, err
-		}
-		ret = strconv.Itoa(val[0])
-		if length == 1 {
-			return ret, err
-		}
-		for i := 1; i < length; i++ {
-			ret += ", "
-			ret += strconv.Itoa(val[i])
-		}
-	case int64:
-		ret = strconv.FormatInt(val, 10)
-
-	case []int64:
-		length := len(val)
-		if length == 0 {
-			return ret, err
-		}
-		ret = strconv.FormatInt(val[0], 10)
-		if length == 1 {
-			return ret, err
-		}
-		for i := 1; i < length; i++ {
-			ret += ", "
-			ret += strconv.FormatInt(val[i], 10)
-		}
-
-	case uint:
-		ret = strconv.Itoa(int(val))
-
-	case []uint:
-		length := len(val)
-		if length == 0 {
-			return ret, err
-		}
-		ret = strconv.Itoa(int(val[0]))
-		if length == 1 {
-			return ret, err
-		}
-		for i := 1; i < length; i++ {
-			ret += ", "
-			ret += strconv.Itoa(int(val[i]))
-		}
-
-	case uint64:
-		ret = strconv.FormatUint(val, 10)
-
-	case []uint64:
-		length := len(val)
-		if length == 0 {
-			return ret, err
-		}
-		ret = strconv.FormatUint(val[0], 10)
-		if length == 1 {
-			return ret, err
-		}
-		for i := 1; i < length; i++ {
-			ret += ", "
-			ret += strconv.FormatUint(val[i], 10)
-		}
-
-	case float64:
-		ret = strconv.FormatFloat(val, 'g', -1, 64)
-
-	case []float64:
-		length := len(val)
-		if length == 0 {
-			return ret, err
-		}
-		ret = strconv.FormatFloat(val[0], 'g', -1, 64)
-		if length == 1 {
-			return ret, err
-		}
-		for i := 1; i < length; i++ {
-			ret += ", "
-			ret += strconv.FormatFloat(val[i], 'g', -1, 64)
-		}
-
 	default:
-		err = fmt.Errorf("Unsupported type %v (currently supported data type: string, []string, bool, int, []int, int64, []int64, uint, []uint, uint64, []uint64, float64, []float64)", reflect.TypeOf(val))
-	}
+		err = fmt.Errorf("Unsupported type %v (currently supported data types: bool, "+
+			"int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64, string"+
+			"[]uint, []uint8, []uint16, []uint32, []uint64, []int, []int8, []int16, []int32, []int64, []float32, []float64, []string)", reflect.TypeOf(face))
 
+	}
 	return ret, err
 }

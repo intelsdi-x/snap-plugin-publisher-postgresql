@@ -63,39 +63,105 @@ func TestSliceToNamespace(t *testing.T) {
 }
 
 func TestInterfaceToString(t *testing.T) {
-	expl1 := []int{1, 2}
-	expl2 := []string{"intel", "os"}
-	expl3 := 1
-	expl4 := 1.12
-	expl5 := "snap"
-	expl6 := make(map[float64]float64)
-	expl7 := []int{}
-	expl8 := []int{1}
 	Convey("TestInterfaceToString", t, func() {
-		sp, err := interfaceToString(expl1)
-		So(sp, ShouldEqual, "1, 2")
-		So(err, ShouldBeNil)
-		sp, err = interfaceToString(expl2)
-		So(sp, ShouldEqual, "intel, os")
-		So(err, ShouldBeNil)
-		sp, err = interfaceToString(expl3)
-		So(sp, ShouldEqual, "1")
-		So(err, ShouldBeNil)
-		sp, err = interfaceToString(expl4)
-		So(sp, ShouldEqual, "1.12")
-		So(err, ShouldBeNil)
-		sp, err = interfaceToString(expl5)
-		So(sp, ShouldEqual, "snap")
-		So(err, ShouldBeNil)
-		sp, err = interfaceToString(expl6)
-		So(sp, ShouldResemble, "")
-		So(err, ShouldNotBeNil)
-		sp, err = interfaceToString(expl7)
-		So(sp, ShouldResemble, "")
-		So(err, ShouldBeNil)
-		sp, err = interfaceToString(expl8)
-		So(sp, ShouldResemble, "1")
-		So(err, ShouldBeNil)
+
+		Convey("Calling function for numeric types", func() {
+			expl1 := uint(1)
+			expl2 := int(-2)
+			expl3 := float32(-2.4)
+			expl4 := float64(-2.4)
+
+			sp, err := interfaceToString(expl1)
+			So(sp, ShouldEqual, "1")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl2)
+			So(sp, ShouldEqual, "-2")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl3)
+			So(sp, ShouldEqual, "-2.4")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl4)
+			So(sp, ShouldEqual, "-2.4")
+			So(err, ShouldBeNil)
+		})
+
+		Convey("Calling function for slices with numeric types", func() {
+			expl1 := []uint{1, 2}
+			expl2 := []int{1, -2}
+			expl3 := []float32{1.5, -2.4}
+			expl4 := []float64{1.5, -2.4}
+
+			sp, err := interfaceToString(expl1)
+			So(sp, ShouldEqual, "1, 2")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl2)
+			So(sp, ShouldEqual, "1, -2")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl3)
+			So(sp, ShouldEqual, "1.5, -2.4")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl4)
+			So(sp, ShouldEqual, "1.5, -2.4")
+			So(err, ShouldBeNil)
+		})
+
+		Convey("Calling function for string type", func() {
+			expl1 := string("snap")
+			sp, err := interfaceToString(expl1)
+			So(sp, ShouldEqual, "snap")
+			So(err, ShouldBeNil)
+		})
+
+		Convey("Calling function for slices with string type", func() {
+			expl1 := []string{"snap1", "snap2"}
+			expl2 := []string{"snap snap1", "snap snap2"}
+			expl3 := []string{"[]snap1[]", "[]snap2[]"}
+
+			sp, err := interfaceToString(expl1)
+			So(sp, ShouldEqual, "snap1, snap2")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl2)
+			So(sp, ShouldEqual, "snap snap1, snap snap2")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl3)
+			So(sp, ShouldEqual, "[]snap1[], []snap2[]")
+			So(err, ShouldBeNil)
+
+		})
+
+		Convey("Calling function for bool type", func() {
+			expl1 := bool(true)
+			expl2 := bool(false)
+
+			sp, err := interfaceToString(expl1)
+			So(sp, ShouldEqual, "1")
+			So(err, ShouldBeNil)
+
+			sp, err = interfaceToString(expl2)
+			So(sp, ShouldEqual, "0")
+			So(err, ShouldBeNil)
+		})
+
+		Convey("Calling function for unsupported types", func() {
+			expl1 := map[float64]float64{}
+			expl2 := struct{}{}
+
+			sp, err := interfaceToString(expl1)
+			So(sp, ShouldEqual, "")
+			So(err, ShouldNotBeNil)
+
+			sp, err = interfaceToString(expl2)
+			So(sp, ShouldEqual, "")
+			So(err, ShouldNotBeNil)
+		})
 	})
 }
 
