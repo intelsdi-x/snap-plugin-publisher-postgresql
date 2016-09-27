@@ -66,6 +66,7 @@ deploy:
     secure: ggXy1z0CjTqnX357/qfFiP6zut0m0odp/s/fYBnuogKP4FsvUzmT9VceAuivT40u4nWBDSQZMOaV2HBalIeN3DpuqPQ2bBwVC1WeYrOp2zVecOFHXmQEf/BXTC5IemQjh+HCKUUP88knVkXS/uhD6J8R9nvA1CwHDghU1ybCw/AY5MN4FuHFE5nR5y+OH6zIYVIyQD7pLXNNVGrGqfkQPaiwMpwRznRJrgu3OX4biYA6w85aeisSu6JJjYwMOW6ySliFyd7qbQFXjUGF1Ua1LrtdH3Az1CvGLzcMdDQw4hyFovUxkFwCQvd4Tz6kAzGPxANAPiQlh4liIcfyKSvFTZEK0qa7WB3ZvS+TVE/08IVFrztwwkParn+DITSrpS07vpO8JzRT2EOw4e2LJZB8OBh1FBDaIQkL0KuGwj2mLVBUB72kmy4W2sXgAWl4ohRk+Jn0L3E9qm2PfNx9YcmS+qHlZdndhJsy/EJyI43Svbv4Cz7OWzOFbjQZyA+ZeCGn+VXGuicRSfn669n0qVaCh1802M+Vn71YEOPiGaD7F6f55t+0geGEuuxcm1EWXSvLlVSdrULio0MGnoQImEF8u3z3Enrl0+pW43Lvv0C+PAEQbp4MiBQ5zbl8tm1oZ3PBNCBQlCqzx0rgrsb4S+8u/fWtpXiFmFLZtKjEgu2fyWU=
   file:
     - release/snap-plugin-publisher-postgresql_linux_x86_64
+    - release/snap-plugin-publisher-postgresql_darwin_x86_64
   skip_cleanup: true
   on:
     repo: intelsdi-x/snap-plugin-publisher-postgresql

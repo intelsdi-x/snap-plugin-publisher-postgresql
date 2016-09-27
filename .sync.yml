@@ -1,12 +1,19 @@
+:global:
+  build:
+    matrix:
+      - GOOS: linux
+        GOARCH: amd64
+      - GOOS: darwin
+        GOARCH: amd64
 .travis.yml:
   sudo: true
   services:
     - postgresql
   env:
     global:
-      - SNAP_POSTGRESQL_HOST=127.0.0.1
       - ORG_PATH=/home/travis/gopath/src/github.com/intelsdi-x
       - SNAP_PLUGIN_SOURCE=/home/travis/gopath/src/github.com/${TRAVIS_REPO_SLUG}
+      - SNAP_POSTGRESQL_HOST=127.0.0.1
     matrix:
       - TEST_TYPE=small
       - TEST_TYPE=medium
