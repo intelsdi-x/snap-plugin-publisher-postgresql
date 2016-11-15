@@ -1,37 +1,28 @@
 {
-    "version": 1,
-    "schedule": {
-        "type": "simple",
-        "interval": "10s"
-    },
-    "workflow": {
-        "collect": {
-            "metrics": {
-                "/intel/psutil/load/load1": {},
-                "/intel/psutil/load/load15": {}
-            },
-            "config": null,
-            "process": [
-                {
-                    "plugin_name": "passthru",
-                    "process": null,
-                    "publish": [
-                        {
-                            "plugin_name": "postgresql",
-                            "config": {
-                                "hostname": "localhost",
-                                "port": 5432,
-                                "username": "snap",
-                                "table_name": "snap",
-                                "database": "snap",
-                                "password": "snap"
-                            }
-                        }
-                    ],
-                    "config": null
-                }
-            ],
-            "publish": null
+  "version": 1,
+  "schedule": {
+    "type": "simple",
+    "interval": "10s"
+  },
+  "workflow": {
+    "collect": {
+      "metrics": {
+        "/intel/psutil/load/load1": {},
+        "/intel/psutil/load/load15": {}
+      },
+      "publish": [
+        {
+          "plugin_name": "postgresql",
+          "config": {
+            "hostname": "localhost",
+            "port": 5432,
+            "username": "snap",
+            "table_name": "snap",
+            "database": "snap",
+            "password": "snap"
+          }
         }
+      ]
     }
+  }
 }
